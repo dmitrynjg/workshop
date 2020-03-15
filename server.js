@@ -48,7 +48,7 @@ app.get('/users', (req, res) => {
   };
 
   const data = fs.readFileSync('users.json', 'utf-8');
-  res.send(data);
+  res.send("[" + data + "]");
 });
 app.listen(80, err => {
   if (err) return console.log('something bad happened', err);

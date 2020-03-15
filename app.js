@@ -26,34 +26,30 @@ document.querySelector('.registration-form').onsubmit = function(event) {
     });
 };
 
-function updateUI(usersList){
+function updateUI(usersList) {
   document.querySelector('.user-list').innerHTML = '';
-  for(let i = 0; i < usersList.length; i++){
-   let div = document.createElement('div');
-   div.classList.add('user');
-   div.innerHTML = `<strong>${usersList[i].username}</strong>` +
-   `<div>${usersList[i].email}</div>`;
-   document.querySelector('.user-list').appendChild(div);
+  for (let i = 0; i < usersList.length; i++) {
+    let div = document.createElement('div');
+    div.classList.add('user');
+    div.innerHTML = `<strong>${usersList[i].username}</strong>` + 
+    `<div>${usersList[i].email}</div>`;
+    document.querySelector('.user-list').appendChild(div);
   }
 }
 
-function getUsers(){
+function getUsers() {
   fetch('http://localhost:80/users')
-  .then(function(res) {
-    if(res.status === 200 && res.ok){
-     res.text().then(result => {
-      let str = "[" + result + "]";
-      updateUI(JSON.parse(str));
+    .then(function(res) {
+      if (res.status === 200 && res.ok) {
+        res.json().then(result => {
+          updateUI(result);
+        });
+      }
+    })
+    .catch(function(res) {
+      console.log(res);
     });
-    }
- 
-  })
-  .catch(function(res) {
-    console.log(res);
-  });
 }
 window.onload = function() {
-getUsers();
-
+  getUsers();
 };
-
